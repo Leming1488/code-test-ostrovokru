@@ -6,7 +6,19 @@ function abcdef(a, b, c, d, e, f) {
   return a + b + c + d + e + f;
 }
 
-function assert (a, b) {
+(function () {
+  Function.prototype.curry = function curried(...args) {
+    const that = this;
+    if (args.length < that.length) {
+      return function (...restArgs) {
+        return curried.apply(that, [...args, ...restArgs]);
+      };
+    }
+    return that(...args);
+  };
+})();
+
+function assert(a, b) {
   if (a !== b) {
     throw new Error();
   }
